@@ -2,12 +2,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import SMOTE
-import numpy as np
 
 seed = 12 # for random_state when sampling
 
 # Load data
-data_path = '/home/grace/ml_bootcamp/kaggle_data.csv'
+data_path = '/home/grace/creditcard/kaggle_data.csv'
 data_df = pd.read_csv(data_path)
 
 # Visualize class imbalance
