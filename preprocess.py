@@ -34,7 +34,7 @@ print(y_res.value_counts())
 X_train, X_test, y_train, y_test = train_test_split(X_res, y_res, test_size=0.2, random_state=seed)
 
 # Save train/test from dataframe to CSV
-X_train.to_csv(path + 'train_features.csv')
-X_test.to_csv(path + 'test_features.csv')
-y_train.to_csv(path + 'train_labels.csv')
-y_test.to_csv(path + 'test_labels.csv')
+X_train.to_csv(path + 'train_features.csv', index=False)
+X_test.to_csv(path + 'test_features.csv', index=False)
+y_train.to_csv(path + 'train_labels.csv', index=False)
+y_test.to_csv(path + 'test_labels.csv', index=False)
