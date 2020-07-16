@@ -1,12 +1,13 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import SMOTE
+from sklearn.model_selection import train_test_split
 
+path = '/home/grace/ml_bootcamp/creditcard/' # path to local folder
 seed = 12 # for random_state when sampling
 
-# Load data
-data_path = '/home/grace/creditcard/kaggle_data.csv'
+# Load data from CSV to dataframe
+data_path = path + 'kaggle_data.csv'
 data_df = pd.read_csv(data_path)
 
 # Visualize class imbalance
@@ -32,3 +33,8 @@ print(y_res.value_counts())
 # Split into training and test sets (80/20)
 X_train, X_test, y_train, y_test = train_test_split(X_res, y_res, test_size=0.2, random_state=seed)
 
+# Save train/test from dataframe to CSV
+X_train.to_csv(path + 'train_features.csv')
+X_test.to_csv(path + 'test_features.csv')
+y_train.to_csv(path + 'train_labels.csv')
+y_test.to_csv(path + 'test_labels.csv')
