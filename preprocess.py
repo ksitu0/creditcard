@@ -24,17 +24,17 @@ y = data_df['Class']
 
 print(y.value_counts())
 
+# Split into training and test sets (80/20)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=seed)
+
 # Balance data with SMOTE
 sm = SMOTE(sampling_strategy=1.0, random_state=seed)
-X_res, y_res = sm.fit_sample(X,y) 
+X_train_res, y_train_res = sm.fit_sample(X_train,y_train) 
 
 print(y_res.value_counts())
 
-# Split into training and test sets (80/20)
-X_train, X_test, y_train, y_test = train_test_split(X_res, y_res, test_size=0.2, random_state=seed)
-
 # Save train/test from dataframe to CSV
-X_train.to_csv(path + 'train_features.csv', index=False)
+X_train_res.to_csv(path + 'train_features.csv', index=False)
 X_test.to_csv(path + 'test_features.csv', index=False)
-y_train.to_csv(path + 'train_labels.csv', index=False)
+y_train_res.to_csv(path + 'train_labels.csv', index=False)
 y_test.to_csv(path + 'test_labels.csv', index=False)
