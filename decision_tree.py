@@ -1,7 +1,9 @@
 import pandas as pd
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier, export_graphviz
 from sklearn.metrics import (confusion_matrix, 
     accuracy_score, precision_score, recall_score, f1_score)
+import graphviz
+from IPython.display import display
 import pickle
 
 path = '/home/grace/ml_bootcamp/creditcard/' # path to local folder
@@ -18,10 +20,11 @@ y_train = pd.read_csv(y_train_path)
 X_test = pd.read_csv(X_test_path)
 y_test = pd.read_csv(y_test_path)
 
-# make decision tree classifier
+# Make decision tree classifier
 weights = {0:600, 1:1}
 
-tree = DecisionTreeClassifier(max_depth=28, random_state=seed, class_weight=weights)
+tree = DecisionTreeClassifier(max_depth=28, random_state=seed, 
+                            class_weight=weights)
 tree.fit(X_train, y_train)
 y_trainer = tree.predict(X_train)
 y_pred = tree.predict(X_test)
@@ -41,6 +44,18 @@ print("Accuracy on test set: {}".format(acc_test))
 print("The precision is {}".format(precision))
 print("The recall/sensitivity is {}".format(recall))
 print("The F1 score is {}".format(f1))
+
+# Visualize decision tree
+feature_list = ['pc{}'.format(i) for i in range(1,29)]
+feature_list.insert(0,"time")
+feature_list.append("amount")
+
+export_graphviz(tree, out_file="tree.dot", class_names=["nonfraud", "fraud"], 
+                feature_names=feature_list)
+
+with open("tree.dot") as f:
+    dot_graph = f.read()
+display(graphviz.Source(dot_graph))
 
 # Save model and predictions
 pickle.dump(tree, open("tree_model.pkl","wb"))
