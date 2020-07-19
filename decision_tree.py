@@ -18,7 +18,9 @@ X_test = pd.read_csv(X_test_path)
 y_test = pd.read_csv(y_test_path)
 
 # make decision tree classifier
-tree = DecisionTreeClassifier(max_depth=27, random_state=seed)
+weights = {0:600, 1:1}
+
+tree = DecisionTreeClassifier(max_depth=28, random_state=seed, class_weight=weights)
 tree.fit(X_train, y_train)
 y_trainer = tree.predict(X_train)
 y_pred = tree.predict(X_test)
@@ -38,3 +40,7 @@ print("Accuracy on test set: {}".format(acc_test))
 print("The precision is {}".format(precision))
 print("The recall/sensitivity is {}".format(recall))
 print("The F1 score is {}".format(f1))
+
+# Output file with model predictions
+tree_results = pd.DataFrame(y_pred)
+tree_results.to_csv(path + 'tree_results.csv', index=False)
