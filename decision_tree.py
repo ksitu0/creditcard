@@ -1,5 +1,5 @@
 import pandas as pd
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.metrics import (confusion_matrix, 
     accuracy_score, precision_score, recall_score, f1_score)
 import matplotlib.pyplot as plt
@@ -45,12 +45,6 @@ print("The precision is {}".format(precision))
 print("The recall/sensitivity is {}".format(recall))
 print("The F1 score is {}".format(f1))
 
-# Save model and predictions
-pickle.dump(tree, open("tree_model.pkl","wb"))
-
-tree_results = pd.DataFrame(y_pred)
-tree_results.to_csv(path + 'tree_results.csv', index=False)
-
 # Show feature importances
 feature_names = ['pc{}'.format(i) for i in range(1,29)]
 feature_names.insert(0,"time")
@@ -66,3 +60,16 @@ plt.xlabel("Feature Importance")
 plt.ylabel("Feature")
 plt.ylim(-1, 30)
 plt.savefig('tree_feature_importances.png', dpi=1200, bbox_inches="tight")
+
+# Visualize tree
+plt.subplots(figsize=(20,12))
+plot_tree(tree, max_depth=2, feature_names=feature_names, 
+            class_names=["nonfraud", "fraud"], label='all', filled=True, 
+            impurity=True, rounded=True, fontsize=18)
+plt.savefig('tree_graph.png')
+
+# Save model and predictions
+pickle.dump(tree, open("tree_model.pkl","wb"))
+
+tree_results = pd.DataFrame(y_pred)
+tree_results.to_csv(path + 'tree_results.csv', index=False)
