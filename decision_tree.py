@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import (confusion_matrix, 
     accuracy_score, precision_score, recall_score, f1_score)
+import pickle
 
 path = '/home/grace/ml_bootcamp/creditcard/' # path to local folder
 seed = 18 # for random_state
@@ -41,6 +42,8 @@ print("The precision is {}".format(precision))
 print("The recall/sensitivity is {}".format(recall))
 print("The F1 score is {}".format(f1))
 
-# Output file with model predictions
+# Save model and predictions
+pickle.dump(tree, open("tree_model.pkl","wb"))
+
 tree_results = pd.DataFrame(y_pred)
 tree_results.to_csv(path + 'tree_results.csv', index=False)
