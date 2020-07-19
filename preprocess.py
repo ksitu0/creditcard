@@ -13,10 +13,12 @@ data_df = pd.read_csv(data_path)
 # Visualize class imbalance
 class_counts = data_df['Class'].value_counts()
 
+plt.figure(figsize=(3,4))
 class_counts.plot.bar(color=['b','r'])
 plt.title('Fraud Class Distribution')
 plt.ylabel('Count')
 plt.xticks([0,1], ['Non-Fraud','Fraud'], rotation=0)
+plt.savefig('fraud_class_distribution.png', dpi=1200, bbox_inches="tight")
 
 # Separate features and labels
 X = data_df.drop(columns = ['Class'])

@@ -1,9 +1,9 @@
 import pandas as pd
-from sklearn.tree import DecisionTreeClassifier, export_graphviz
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import (confusion_matrix, 
     accuracy_score, precision_score, recall_score, f1_score)
-import graphviz
-from IPython.display import display
+import matplotlib.pyplot as plt
+import numpy as np
 import pickle
 
 path = '/home/grace/ml_bootcamp/creditcard/' # path to local folder
@@ -45,20 +45,24 @@ print("The precision is {}".format(precision))
 print("The recall/sensitivity is {}".format(recall))
 print("The F1 score is {}".format(f1))
 
-# Visualize decision tree
-feature_list = ['pc{}'.format(i) for i in range(1,29)]
-feature_list.insert(0,"time")
-feature_list.append("amount")
-
-export_graphviz(tree, out_file="tree.dot", class_names=["nonfraud", "fraud"], 
-                feature_names=feature_list)
-
-with open("tree.dot") as f:
-    dot_graph = f.read()
-display(graphviz.Source(dot_graph))
-
 # Save model and predictions
 pickle.dump(tree, open("tree_model.pkl","wb"))
 
 tree_results = pd.DataFrame(y_pred)
 tree_results.to_csv(path + 'tree_results.csv', index=False)
+
+# Show feature importances
+feature_names = ['pc{}'.format(i) for i in range(1,29)]
+feature_names.insert(0,"time")
+feature_names.append("amount")
+
+print("Feature importances:\n{}".format(tree.feature_importances_))
+
+plt.figure(figsize=(4,7))
+plt.barh(range(30), tree.feature_importances_, align='center')
+plt.title('Decision Tree Feature Importances')
+plt.yticks(np.arange(30), feature_names)
+plt.xlabel("Feature Importance")
+plt.ylabel("Feature")
+plt.ylim(-1, 30)
+plt.savefig('tree_feature_importances.png', dpi=1200, bbox_inches="tight")
