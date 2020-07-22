@@ -23,7 +23,7 @@ y_test = pd.read_csv(y_test_path)
 # Make decision tree classifier
 weights = {0:600, 1:1}
 
-tree = DecisionTreeClassifier(max_depth=28, random_state=seed, 
+tree = DecisionTreeClassifier(max_depth=6, random_state=seed, 
                             class_weight=weights)
 tree.fit(X_train, y_train)
 y_trainer = tree.predict(X_train)
@@ -67,11 +67,11 @@ plt.ylim(-1, 30)
 plt.savefig('tree_feature_importances.png', dpi=1200, bbox_inches="tight")
 
 # Visualize tree
-plt.subplots(figsize=(20,12))
-plot_tree(tree, max_depth=1, feature_names=feature_names, 
-            class_names=["nonfraud", "fraud"], label='all', filled=True, 
-            impurity=True, rounded=True, fontsize=32)
-plt.savefig('tree_graph.png')
+plt.subplots(figsize=(10,8))
+plot_tree(tree, max_depth=2, feature_names=feature_names, 
+            class_names=["nonfraud", "fraud"], label='none', filled=True, 
+            impurity=True, rounded=True, fontsize=14)
+plt.savefig('tree_graph.png', bbox_inches='tight')
 
 # Save model and predictions
 pickle.dump(tree, open("tree_model.pkl","wb"))
