@@ -17,6 +17,8 @@ y_test = pd.read_csv(y_test_path).values.ravel()
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import (confusion_matrix, 
     accuracy_score, precision_score, recall_score, f1_score)
+import matplotlib.pyplot as plt
+import numpy as np
 import pickle
 
 seed = 42
@@ -30,8 +32,13 @@ print("predicting")
 y_trainer = forest.predict(X_train)
 y_pred = forest.predict(X_test)
 
+# Results + Confusion matrix
 print(confusion_matrix(y_train,y_trainer))
 print(confusion_matrix(y_test, y_pred))
+
+plot_confusion_matrix(tree, X_test, y_test, normalize='true', 
+        include_values=False, cmap='Reds')
+plt.savefig('tree_confusion.png', dpi=300, bbox_inches='tight')
 
 acc_train = accuracy_score(y_train, y_trainer)
 acc_test = accuracy_score(y_test, y_pred)
