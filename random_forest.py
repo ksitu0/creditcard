@@ -36,9 +36,11 @@ y_pred = forest.predict(X_test)
 print(confusion_matrix(y_train,y_trainer))
 print(confusion_matrix(y_test, y_pred))
 
-plot_confusion_matrix(tree, X_test, y_test, normalize='true', 
+plt.rcParams.update({'font.size': 18})
+
+plot_confusion_matrix(forest, X_test, y_test, normalize='true', 
         include_values=False, cmap='Reds')
-plt.savefig('tree_confusion.png', dpi=300, bbox_inches='tight')
+plt.savefig('forest_confusion.png', dpi=300, bbox_inches='tight')
 
 acc_train = accuracy_score(y_train, y_trainer)
 acc_test = accuracy_score(y_test, y_pred)
